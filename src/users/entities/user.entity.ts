@@ -19,6 +19,10 @@ export class UserEntity {
   isPrime: boolean;
   @Column()
   bio: string;
+  @Column()
+  gender: string;
+  @Column()
+  dateOfBirth: Date;
 
   @OneToMany(() => LinkEntity, (link) => link.user)
   links: LinkEntity[];

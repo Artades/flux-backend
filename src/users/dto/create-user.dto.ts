@@ -25,7 +25,7 @@ export class CreateUserDto {
     default: 'Developer',
   })
   activity: string;
-  
+
   @ApiProperty({
     default: false,
   })
@@ -35,4 +35,12 @@ export class CreateUserDto {
     default: 'There is no bio yet',
   })
   bio: string;
+  @ApiProperty({
+    default: 'male',
+  })
+  gender: string;
+  @ApiProperty({
+    default: '01.04.2002',
+  })
+  dateOfBirth: Date;
 }
