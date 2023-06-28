@@ -17,6 +17,14 @@ export class LinksController {
   async create(@Body() link: CreateLinkDto, @UserId() userId: number) {
     return await this.linksService.create(link, userId);
   }
+  
+  @Delete(':id')
+  async delete(
+    @Param('id') linkId: number,
+    @UserId() userId: number,
+  ): Promise<void> {
+    await this.linksService.deleteLink(linkId, userId);
+  }
 
   @Get()
   async findAll(@UserId() userId: number): Promise<LinkEntity[]> {

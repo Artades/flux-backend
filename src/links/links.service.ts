@@ -11,21 +11,29 @@ export class LinksService {
     private linkRepository: Repository<LinkEntity>,
   ) {}
 
-   async create(link: CreateLinkDto, userId:number) {
-    return  await this.linkRepository.save({
+  async create(link: CreateLinkDto, userId: number) {
+    return await this.linkRepository.save({
       linkName: link.linkName,
       linkPath: link.linkPath,
       linkIcon: link.linkIcon,
-      user: {id: userId}
-
+      user: { id: userId },
     });
   }
-  async getLinks(userId: number): Promise<LinkEntity[]> {
-    const qb = this.linkRepository.createQueryBuilder('link')
-    // const posts = this.postRepository.find();
-     qb.where('link.userId = :userId', { userId });
-     return qb.getMany()
 
+  async deleteLink(linkId: number, userId: number): Promise<void> {
+    const result = await this.linkRepository.delete({
+      id: linkId,
+      user: { id: userId },
+    });
+    if (result.affected === 0) {
+      throw new NotFoundException(`Link with ID ${linkId} not found.`);
+    }
   }
 
+  async getLinks(userId: number): Promise<LinkEntity[]> {
+    const qb = this.linkRepository.createQueryBuilder('link');
+    // const posts = this.postRepository.find();
+    qb.where('link.userId = :userId', { userId });
+    return qb.getMany();
+  }
 }
