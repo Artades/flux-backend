@@ -8,12 +8,15 @@ import { UserEntity } from './users/entities/user.entity';
 import { LinkEntity } from './links/entities/link.entity';
 import { ConfigModule } from '@nestjs/config/dist';
 import { AuthModule } from './auth/auth.module';
+import { AvatarsModule } from './avatars/avatars.module';
+
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     UsersModule,
     LinksModule,
+    AvatarsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -24,6 +27,7 @@ import { AuthModule } from './auth/auth.module';
       entities: [UserEntity , LinkEntity],
       synchronize: true,
     }),
+  
     AuthModule,
   ],
   controllers: [AppController],

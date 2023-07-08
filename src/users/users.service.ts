@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './entities/user.entity';
+import { createReadStream, createWriteStream } from 'fs';
+import { join } from 'path';
 
 @Injectable()
 export class UsersService {
@@ -41,8 +43,6 @@ export class UsersService {
       throw new Error('User not found');
     }
 
-    
-
     return user.links || [];
   }
 
@@ -56,6 +56,16 @@ export class UsersService {
       throw new Error('User not found');
     }
     user.bio = newBio;
+    return this.repository.save(user);
+  }
+
+  async updateAvatar(userId: number, avatar: Express.Multer.File) {
+    const user = await this.repository.findOneBy({ id: userId });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    const avatarPath = `${avatar.filename}`;
+    user.avatar = avatarPath;
     return this.repository.save(user);
   }
 }

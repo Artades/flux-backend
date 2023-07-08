@@ -23,6 +23,8 @@ export class UserEntity {
   gender: string;
   @Column()
   dateOfBirth: Date;
+  @Column()
+  avatar: string;
 
   @OneToMany(() => LinkEntity, (link) => link.user)
   links: LinkEntity[];
